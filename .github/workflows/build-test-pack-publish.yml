@@ -107,6 +107,8 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v2
+      - name: Fetch unshallow
+        run: git fetch --prune --unshallow
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         id: sync-pr
@@ -115,11 +117,9 @@ jobs:
           destination_branch: "develop"
           pr_title: "Rebase release from ${{ github.ref }} into develop"
           pr_body: "refactor: rebased release from ${{ github.ref }} into develop"
-      - name: Fetch unshallow
-        run: git fetch --prune --unshallow
       - name: Rebase pull request
         if: success()
-        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.3
+        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_number: ${{ steps.sync-pr.outputs.pr_number }}

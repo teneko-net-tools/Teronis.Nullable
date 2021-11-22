@@ -106,19 +106,17 @@ jobs:
         && github.event.pull_request.merged == true
       )
     steps:
-      - name: Checkout the latest code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Create pull request
-        id: release-sync-pr
-        uses: peter-evans/create-pull-request@v3
+        uses: repo-sync/pull-request@v2
+        id: sync-pr
         with:
-          branch: feature/${{ github.head_ref }}
-          base: develop
-          delete-branch: true
-      - name: Automatic rebase
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          destination_branch: "develop"
+          pr_title: "Synchronize ${{ github.ref }} into develop"
+          pr_body: "build: synchronize ${{ github.ref }} into develop"
+      - name: Rebase pull request
+        if: success()
         uses: cirrus-actions/rebase@1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ steps.release-sync-pr.outputs.pull-request-number }}
+          PR_NUMBER: ${{ steps.sync-pr.outputs.pr_number }}

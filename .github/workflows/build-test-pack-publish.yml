@@ -106,6 +106,7 @@ jobs:
         && github.event.pull_request.merged == true
       )
     steps:
+      - uses: actions/checkout@v2
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         id: sync-pr

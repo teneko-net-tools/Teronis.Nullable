@@ -107,6 +107,8 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         id: sync-pr

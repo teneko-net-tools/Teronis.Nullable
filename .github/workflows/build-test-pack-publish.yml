@@ -113,8 +113,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           destination_branch: "develop"
-          pr_title: "Release (${{ github.ref }}) want to be rebased into develop"
-          pr_body: "refactor: rebased release (${{ github.ref }}) into develop"
+          pr_title: "Rebase release from ${{ github.ref }} into develop"
+          pr_body: "refactor: rebased release from ${{ github.ref }} into develop"
       - name: Rebase pull request
         if: success()
         uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.1

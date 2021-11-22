@@ -106,6 +106,7 @@ jobs:
         && github.event.pull_request.merged == true
       )
     steps:
+      - uses: actions/checkout@v2
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         id: sync-pr
@@ -114,6 +115,12 @@ jobs:
           destination_branch: "develop"
           pr_title: "Synchronize ${{ github.ref }} into develop"
           pr_body: "build: synchronize ${{ github.ref }} into develop"
+      - name: output-url
+        run: echo ${{steps.sync-pr.outputs.pr_url}}
+      - name: output-number
+        run: echo ${{steps.sync-pr.outputs.pr_number}}
+      - name: output-has-changed-files
+        run: echo ${{steps.sync-pr.outputs.has_changed_files}}
       - name: Rebase pull request
         if: success()
         uses: cirrus-actions/rebase@1.4

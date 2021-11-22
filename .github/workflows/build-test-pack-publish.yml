@@ -117,7 +117,7 @@ jobs:
           pr_body: "refactor: rebased release from ${{ github.ref }} into develop"
       - name: Rebase pull request
         if: success()
-        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.1
+        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_number: ${{ steps.sync-pr.outputs.pr_number }}

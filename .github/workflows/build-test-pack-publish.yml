@@ -107,6 +107,8 @@ jobs:
       )
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         id: sync-pr
@@ -117,7 +119,7 @@ jobs:
           pr_body: "refactor: rebased release from ${{ github.ref }} into develop"
       - name: Rebase pull request
         if: success()
-        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.1
+        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_number: ${{ steps.sync-pr.outputs.pr_number }}

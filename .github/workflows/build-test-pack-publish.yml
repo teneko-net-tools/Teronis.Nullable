@@ -106,17 +106,18 @@ jobs:
         && github.event.pull_request.merged == true
       )
     steps:
+      - uses: actions/checkout@v2
       - name: Create pull request
         uses: repo-sync/pull-request@v2
         id: sync-pr
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           destination_branch: "develop"
-          pr_title: "Synchronize ${{ github.ref }} into develop"
-          pr_body: "build: synchronize ${{ github.ref }} into develop"
+          pr_title: "Release (${{ github.ref }}) want to be rebased into develop"
+          pr_body: "refactor: rebased release (${{ github.ref }}) into develop"
       - name: Rebase pull request
         if: success()
-        uses: cirrus-actions/rebase@1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ steps.sync-pr.outputs.pr_number }}
+        uses: Teroneko-NET-Tools/action-auto-rebase@v2-alpha.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_number: ${{ steps.sync-pr.outputs.pr_number }}

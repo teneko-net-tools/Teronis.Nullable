@@ -5,6 +5,11 @@ on:
     branches:
       - "*"
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
     branches:
       - "*"
 
@@ -35,9 +40,31 @@ jobs:
             src/**/*.nupkg
             src/**/*.snupkg
   publish:
-    if: contains('
-      refs/heads/develop
-      refs/heads/main', github.ref)
+    if: |
+      (
+        github.ref == 'main'
+        && github.event_name == 'pull_request'
+        && github.event.pull_request.merged == true
+      ) ||
+      (
+        (
+          (
+            github.ref == 'refs/heads/develop'
+            && github.event_name == 'push'
+          ) ||
+          (
+            github.ref == 'develop'
+            && github.event_name == 'pull_request'
+            && github.event.pull_request.merged == true
+            && !startsWith(github.base_ref, 'release/')
+          )
+        ) &&
+          (
+            contains(toJSON(github.event.commits.*.message), 'feat: ')
+            || contains(toJSON(github.event.commits.*.message), 'fix: ')
+            || contains(toJSON(github.event.commits.*.message), 'perf: ')
+          )
+      )
     needs: build
     runs-on: windows-latest
     steps:

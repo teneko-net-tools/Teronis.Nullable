@@ -1,13 +1,10 @@
 mode: ContinuousDeployment
-continuous-delivery-fallback-tag: ''
-next-version: 0.1.0
+continuous-delivery-fallback-tag: ""
+next-version: 1.0.0
 branches:
-  main:
-    increment: Patch
-    is-release-branch: true
-  develop:
-    increment: Patch
-    is-mainline: true
+  feature:
+    source-branches:
+      - develop
 ignore:
   sha: []
 merge-message-formats: {}

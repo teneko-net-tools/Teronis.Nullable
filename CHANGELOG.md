@@ -1,4 +1,9 @@
-#  (2021-11-22)
+# 1.0.0 (2021-11-23)
+
+
+### Bug Fixes
+
+* deleted root-GitVersion.yml ([25d3685](https://github.com/Teroneko-NET-Tools/Teronis.Nullable/commit/25d368548895702c1cf2e8a2fd42f23721d8613c))
 
 
 ### Features
